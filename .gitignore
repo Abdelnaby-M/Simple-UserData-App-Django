@@ -1,5 +1,5 @@
 /userdata/
-src/users/db.sqlite3
+src/db.sqlite3
 src/uploads
 src/templates
 src/userdata/__pycache__

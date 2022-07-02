@@ -53,7 +53,7 @@ class authView(APIView):
 
         payload = {
             'id': User.id,
-            'iat': datetime.datetime.utcnow()
+            'phone_number': User.phone_number
         }
 
         token = jwt.encode(payload, 'secret', algorithm='HS256')
@@ -79,11 +79,14 @@ class statusView(APIView):
         
         try:
             payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-            # print(payload)
-        except jwt.ExpiredSignatureError:
+            
+        except:
             raise AuthenticationFailed('Unauthenticated!')
         
         User = user.objects.get(id=payload['id'])
+        
+        if User.phone_number != phone_number:
+            raise AuthenticationFailed('Unauthenticated!')
         # User = User.first()
         User.status = status
         User.save()
